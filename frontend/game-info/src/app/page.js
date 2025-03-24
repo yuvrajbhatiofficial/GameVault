@@ -7,6 +7,8 @@ import CategorySection from '../components/CategorySection';
 import GameGrid from '../components/GameGrid';
 import GameDetail from '../components/GameDetail';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 export default function Home() {
     const [games, setGames] = useState([]);
     const [filteredGames, setFilteredGames] = useState([]);
@@ -83,7 +85,7 @@ export default function Home() {
         const fetchGames = async () => {
             try {
                 setLoading(true);
-                const response = await fetch('http://localhost:8000/api/games');
+                const response = await fetch(`${API_URL}/api/games`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch games');
                 }
@@ -132,7 +134,7 @@ export default function Home() {
                 setGame(selectedGame);
             } else {
                 // If game not found in current list, fetch it
-                fetch(`http://localhost:8000/api/game/${id}`)
+                fetch(`${API_URL}/api/game/${id}`)
                     .then(response => response.json())
                     .then(data => setGame(data))
                     .catch(error => {
